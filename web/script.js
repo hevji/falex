@@ -393,27 +393,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add parallax effect to hero section
+// Add parallax effect to hero section (only when hero is visible)
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.hero-content');
+    const hero = document.querySelector('.hero');
     
-    parallaxElements.forEach(element => {
-        const speed = 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-});
-
-// Add gradient animation to CTA button
-document.addEventListener('DOMContentLoaded', () => {
-    const ctaButton = document.querySelector('.cta-button');
-    if (ctaButton) {
-        let hue = 0;
-        setInterval(() => {
-            hue = (hue + 1) % 360;
-            const color = `hsl(${hue}, 100%, 50%)`;
-            ctaButton.style.boxShadow = `0 0 20px ${color}40`;
-        }, 50);
+    if (hero && scrolled < hero.offsetHeight) {
+        const parallaxElements = document.querySelectorAll('.hero-content');
+        parallaxElements.forEach(element => {
+            const speed = 0.3;
+            element.style.transform = `translateY(${scrolled * speed}px)`;
+        });
     }
 });
 
