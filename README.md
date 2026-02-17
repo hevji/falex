@@ -1,5 +1,7 @@
 # 🛠️ FALEX Multitool
 
+📄 [License](LICENSE.md) | ⚠️ [Safety Notice](SAFETY_NOTICE.md)
+
 A Windows console-based Python multitool containing various utilities for educational and development purposes.
 
 ---
