@@ -410,7 +410,9 @@ window.addEventListener('scroll', () => {
 // Console log welcome message
 console.log('%c Welcome to FALEX ', 'background: #ff3366; color: #0a0a0a; font-size: 20px; font-weight: bold; padding: 10px;');
 console.log('%c The Ultimate Developer Multitool Suite ', 'background: #0a0a0a; color: #ff3366; font-size: 14px; padding: 5px;');
-console.log('%c Check out our GitHub: https://github.com ', 'color: #00ffff; font-size: 12px;');
+console.log('%c Check out our GitHub: https://github.com/hevji/falex ', 'color: #00ffff; font-size: 12px;');
+console.log('why are you looking in the console lil bro');
+
 
 // Easter egg - konami code
 let konamiCode = [];
