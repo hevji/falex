@@ -1,1 +1,178 @@
-(function(){// Particle System for Canvas class ParticleSystem {constructor(_8) {this._8 = _8;this.ctx = _8.getContext(atob('MmQ='));this.particles = [];this.particleCount = 100;this.mouse = {_19: 0, _1a: 0 };this.resize();this.init();this.animate();window.addEventListener(atob('cmVzaXpl'), () => this.resize());_8.addEventListener(atob('bW91c2Vtb3Zl'), (e) => {const _0 = _8.getBoundingClientRect();this.mouse._19 = e.clientX - _0.left;this.mouse._1a = e.clientY - _0.top;});}resize() {this._8.width = this._8.offsetWidth;this._8.height = this._8.offsetHeight;}init() {this.particles = [];for (let _1 = 0;_1 < this.particleCount;_1++) {this.particles.push({_19: Math.random() * this._8.width, _1a: Math.random() * this._8.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, radius: Math.random() * 2 + 1, opacity: Math.random() * 0.5 + 0.2 });}}animate() {this.ctx.clearRect(0, 0, this._8.width, this._8.height);this.particles.forEach(particle => {// Move particle particle._19 += particle.vx;particle._1a += particle.vy;// Mouse interaction const _2 = this.mouse._19 - particle._19;const _3 = this.mouse._1a - particle._1a;const _4 = Math.sqrt(_2 * _2 + _3 * _3);if (_4 < 100) {const _5 = (100 - _4) / 100;particle.vx -= (_2 / _4) * _5 * 0.1;particle.vy -= (_3 / _4) * _5 * 0.1;}// Boundary check if (particle._19 < 0 || particle._19 > this._8.width) particle.vx *= -1;if (particle._1a < 0 || particle._1a > this._8.height) particle.vy *= -1;// Draw particle this.ctx.beginPath();this.ctx.arc(particle._19, particle._1a, particle.radius, 0, Math.PI * 2);this.ctx.fillStyle = `rgba(255, 51, 102, ${particle.opacity})`;this.ctx.fill();// Draw connections this.particles.forEach(other => {const _2 = particle._19 - other._19;const _3 = particle._1a - other._1a;const _4 = Math.sqrt(_2 * _2 + _3 * _3);if (_4 < 150) {this.ctx.beginPath();this.ctx.moveTo(particle._19, particle._1a);this.ctx.lineTo(other._19, other._1a);this.ctx.strokeStyle = `rgba(255, 51, 102, ${0.1 * (1 - _4 / 150)})`;this.ctx.lineWidth = 0.5;this.ctx.stroke();}});});requestAnimationFrame(() => this.animate());}}// Terminal Typing Effect class TerminalTyper {constructor(element, _a) {this.element = element;this._a = _a;this.currentCommand = 0;this.currentChar = 0;this.isDeleting = false;this.typeSpeed = 100;this.deleteSpeed = 50;this.pauseTime = 2000;this.type();}type() {const _6 = this._a[this.currentCommand];if (this.isDeleting) {this.element.textContent = _6.substring(0, this.currentChar - 1);this.currentChar--;}else {this.element.textContent = _6.substring(0, this.currentChar + 1);this.currentChar++;}let _7 = this.isDeleting ? this.deleteSpeed : this.typeSpeed;if (!this.isDeleting && this.currentChar === _6.length) {_7 = this.pauseTime;this.isDeleting = true;}else if (this.isDeleting && this.currentChar === 0) {this.isDeleting = false;this.currentCommand = (this.currentCommand + 1) % this._a.length;}setTimeout(() => this.type(), _7);}}// Initialize when DOM is loaded document.addEventListener(atob('RE9NQ29udGVudExvYWRlZA=='), function() {// Initialize Particle System const _8 = document.getElementById(atob('cGFydGljbGVzLV84'));if (_8) {new ParticleSystem(_8);}// Initialize Terminal Typer const _9 = document.getElementById(atob('dHlwZWQtdGV4dA=='));if (_9) {const _a = [ atob('ZmFsZXggLS1oZWxw'), atob('ZmFsZXggcGluZyBnb29nbGUuY29t'), atob('ZmFsZXggZ2VuZXJhdGUgX3E='), atob('ZmFsZXggZW5jb2RlIGF0b2IoIlNHVnNiRzhnVjI5eWJHUT0iKQ=='), atob('ZmFsZXggZG93bmxvYWQgeW91dHViZS5jb20vd2F0Y2g/X3M9Li4u'), atob('ZmFsZXggaWRlbnRpdHkgLS1yYW5kb20=') ];new TerminalTyper(_9, _a);}// Terminal Output Animation const _b = document.getElementById(atob('dGVybWluYWwtb3V0cHV0'));if (_b) {setTimeout(() => {_b.innerHTML = ` <div _15=atob("bWFyZ2luLWJvdHRvbTogMC41cmVtOw==")>✓ 6 tools available</div> <div _15=atob("bWFyZ2luLWJvdHRvbTogMC41cmVtOw==")>✓ All systems operational</div> <div _15=atob("Y29sb3I6ICNmZjMzNjY7")>✓ Ready to use</div> `;}, 1500);}// Animated Counter for Stats const _c = document.querySelectorAll(atob('LnN0YXQtbnVtYmVy'));_c.forEach(counter => {const _d = parseInt(counter.getAttribute(atob('ZGF0YS1fZA==')));const _e = 2000;const _f = _d / (_e / 16);let _6 = 0;const _g = () => {_6 += _f;if (_6 < _d) {counter.textContent = Math.floor(_6);requestAnimationFrame(_g);}else {counter.textContent = _d + (counter.textContent.includes(atob('JQ==')) ? atob('') : atob(''));}};// Start counter when element is in view const _h = new IntersectionObserver((entries) => {entries.forEach(entry => {if (entry.isIntersecting) {_g();_h.unobserve(entry._d);}});});_h.observe(counter);});// GSAP Scroll Animations if (typeof gsap !== atob('dW5kZWZpbmVk') && typeof ScrollTrigger !== atob('dW5kZWZpbmVk')) {gsap.registerPlugin(ScrollTrigger);// Feature Cards Animation gsap.utils.toArray(atob('LmZlYXR1cmUtY2FyZA==')).forEach((card, index) => {gsap.from(card, {scrollTrigger: {trigger: card, start: atob('dG9wIDgwJQ=='), end: atob('Ym90dG9tIDIwJQ=='), toggleActions: atob('cGxheSBub25lIG5vbmUgcmV2ZXJzZQ==') }, _1a: 50, opacity: 0, _e: 0.8, delay: index * 0.1 });});// Section Headers Animation gsap.utils.toArray(atob('LnNlY3Rpb24taGVhZGVy')).forEach(header => {gsap.from(header, {scrollTrigger: {trigger: header, start: atob('dG9wIDgwJQ=='), toggleActions: atob('cGxheSBub25lIG5vbmUgcmV2ZXJzZQ==') }, _1a: 30, opacity: 0, _e: 1 });});// Demo Section Animation gsap.from(atob('LmRlbW8tY29udGFpbmVy'), {scrollTrigger: {trigger: atob('LmRlbW8tY29udGFpbmVy'), start: atob('dG9wIDgwJQ=='), toggleActions: atob('cGxheSBub25lIG5vbmUgcmV2ZXJzZQ==') }, scale: 0.95, opacity: 0, _e: 1 });// Download Card Animation gsap.from(atob('LmRvd25sb2FkLWNhcmQ='), {scrollTrigger: {trigger: atob('LmRvd25sb2FkLWNhcmQ='), start: atob('dG9wIDgwJQ=='), toggleActions: atob('cGxheSBub25lIG5vbmUgcmV2ZXJzZQ==') }, _1a: 50, opacity: 0, _e: 1 });}// Smooth Scrolling for Navigation Links document.querySelectorAll(atob('YVtocmVmXj1hdG9iKCJJdz09Iild')).forEach(anchor => {anchor.addEventListener(atob('Y2xpY2s='), function(e) {e.preventDefault();const _d = document.querySelector(this.getAttribute(atob('aHJlZg==')));if (_d) {const _i = 80;const _j = _d.offsetTop - _i;window.scrollTo({top: _j, behavior: atob('c21vb3Ro') });}});});// Demo Tab Switching const _k = document.querySelectorAll(atob('LmRlbW8tdGFi'));const _l = document.querySelectorAll(atob('LmRlbW8tcGFuZWw='));_k.forEach(tab => {tab.addEventListener(atob('Y2xpY2s='), () => {const _m = tab.getAttribute(atob('ZGF0YS1kZW1v'));// Remove active class from all tabs and panels _k.forEach(t => t.classList.remove(atob('YWN0aXZl')));_l.forEach(p => p.classList.remove(atob('YWN0aXZl')));// Add active class to clicked tab and corresponding panel tab.classList.add(atob('YWN0aXZl'));document.getElementById(`demo-${_m}`).classList.add(atob('YWN0aXZl'));});});// Navbar scroll effect let _n = 0;const _o = document.querySelector(atob('Ll9v'));window.addEventListener(atob('c2Nyb2xs'), () => {const _p = window.pageYOffset;if (_p > 100) {_o._15.background = atob('cmdiYSgxMCwgMTAsIDEwLCAwLjk1KQ==');_o._15.boxShadow = atob('MCAycHggMTBweCByZ2JhKDI1NSwgNTEsIDEwMiwgMC4xKQ==');}else {_o._15.background = atob('cmdiYSgxMCwgMTAsIDEwLCAwLjkp');_o._15.boxShadow = atob('bm9uZQ==');}_n = _p;});});// Demo Tool Functions // UUID Generator function _1c() {const _q = atob('eHh4eHh4eHgteHh4eC00eHh4LXl4eHgteHh4eHh4eHh4eHh4').replace(/[xy]/g, function(c) {const _r = Math.random() * 16 | 0;const _s = c === atob('XzE5') ? _r : (_r & 0x3 | 0x8);return _s.toString(16);});const _t = document.getElementById(atob('X3EtdmFsdWU='));_t.textContent = _q;_t._15.color = atob('IzAwZmZmZg==');// Add copy functionality _t._15.cursor = atob('cG9pbnRlcg==');_t.title = atob('Q2xpY2sgdG8gY29weQ==');_t.onclick = () => {navigator.clipboard.writeText(_q);const _u = _t.textContent;_t.textContent = '✓ Copied!';setTimeout(() => {_t.textContent = _u;}, 2000);};}// Base64 Encoder function _1d() {const _v = document.getElementById(atob('YmFzZTY0LV92')).value;if (!_v) {alert(atob('UGxlYXNlIGVudGVyIHRleHQgdG8gZW5jb2Rl'));return;}const _w = btoa(_v);const _t = document.getElementById(atob('YmFzZTY0LXZhbHVl'));_t.textContent = _w;_t._15.color = atob('IzAwZmZmZg==');// Add copy functionality _t._15.cursor = atob('cG9pbnRlcg==');_t.title = atob('Q2xpY2sgdG8gY29weQ==');_t.onclick = () => {navigator.clipboard.writeText(_w);const _u = _t.textContent;_t.textContent = '✓ Copied!';setTimeout(() => {_t.textContent = _u;}, 2000);};}// Website Pinger (Simulated) function _1e() {const _v = document.getElementById(atob('cGluZ2VyLV92')).value;if (!_v) {alert(atob('UGxlYXNlIGVudGVyIGEgVVJM'));return;}const _t = document.getElementById(atob('cGluZ2VyLXZhbHVl'));_t.textContent = atob('UGluZ2luZy4uLg==');_t._15.color = atob('I2ZmYWEwMA==');// Simulate ping delay setTimeout(() => {const _x = Math.floor(Math.random() * 100) + 20;_t.textContent = `✓ ${_v}is reachable (${_x}ms)`;_t._15.color = atob('IzAwZmYwMA==');}, 1000);}// Feature Card Hover Effects document.addEventListener(atob('RE9NQ29udGVudExvYWRlZA=='), () => {const _y = document.querySelectorAll(atob('LmZlYXR1cmUtY2FyZA=='));_y.forEach(card => {card.addEventListener(atob('bW91c2VlbnRlcg=='), () => {// Add subtle glow effect card._15.boxShadow = atob('MCAyMHB4IDYwcHggcmdiYSgyNTUsIDUxLCAxMDIsIDAuNCk=');});card.addEventListener(atob('bW91c2VsZWF2ZQ=='), () => {card._15.boxShadow = atob('');});});});// Add parallax effect to _10 section (only when _10 is visible) window.addEventListener(atob('c2Nyb2xs'), () => {const _z = window.pageYOffset;const _10 = document.querySelector(atob('Ll8xMA=='));if (_10 && _z < _10.offsetHeight) {const _11 = document.querySelectorAll(atob('Ll8xMC1jb250ZW50'));_11.forEach(element => {const _12 = 0.3;element._15.transform = `translateY(${_z * _12}px)`;});}});// Console log welcome message console.log(atob('JWMgV2VsY29tZSB0byBGQUxFWCA='), atob('YmFja2dyb3VuZDogI2ZmMzM2NjsgY29sb3I6ICMwYTBhMGE7IGZvbnQtXzE4OiAyMHB4OyBmb250LXdlaWdodDogYm9sZDsgcGFkZGluZzogMTBweDs='));console.log(atob('JWMgVGhlIFVsdGltYXRlIERldmVsb3BlciBNdWx0aXRvb2wgU3VpdGUg'), atob('YmFja2dyb3VuZDogIzBhMGEwYTsgY29sb3I6ICNmZjMzNjY7IGZvbnQtXzE4OiAxNHB4OyBwYWRkaW5nOiA1cHg7'));console.log(atob('JWMgQ2hlY2sgb3V0IG91ciBHaXRIdWI6IGh0dHBzOi8vZ2l0aHViLmNvbS9oZXZqaS9mYWxleCA='), atob('Y29sb3I6ICMwMGZmZmY7IGZvbnQtXzE4OiAxMnB4Ow=='));console.log(atob('d2h5IGFyZSB5b3UgbG9va2luZyBpbiB0aGUgY29uc29sZSBsaWwgYnJv'));// Easter egg - konami code let _13 = [];const _14 = [atob('QXJyb3dVcA=='), atob('QXJyb3dVcA=='), atob('QXJyb3dEb3du'), atob('QXJyb3dEb3du'), atob('QXJyb3dMZWZ0'), atob('QXJyb3dSaWdodA=='), atob('QXJyb3dMZWZ0'), atob('QXJyb3dSaWdodA=='), atob('Yg=='), atob('YQ==')];document.addEventListener(atob('a2V5ZG93bg=='), (e) => {_13.push(e.key);_13 = _13.slice(-10);if (_13.join(atob('LA==')) === _14.join(atob('LA=='))) {// Activate easter egg document.body._15.animation = atob('cmFpbmJvdyAycyBpbmZpbml0ZQ==');const _15 = document.createElement(atob('XzE1'));_15.textContent = ` @keyframes rainbow {0% {filter: hue-rotate(0deg);}100% {filter: hue-rotate(360deg);}}`;document.head.appendChild(_15);setTimeout(() => {document.body._15.animation = atob('');}, 10000);console.log('%c 🎉 KONAMI CODE ACTIVATED! 🎉 ', atob('YmFja2dyb3VuZDogI2ZmMzM2NjsgY29sb3I6ICMwYTBhMGE7IGZvbnQtXzE4OiAyMHB4OyBmb250LXdlaWdodDogYm9sZDsgcGFkZGluZzogMTBweDs='));}});// Add loading animation window.addEventListener(atob('bG9hZA=='), () => {document.body.classList.add(atob('bG9hZGVk'));});// Enhance demo panels with syntax highlighting document.addEventListener(atob('RE9NQ29udGVudExvYWRlZA=='), () => {const _16 = document.querySelectorAll(atob('LmNvZGUtbGluZQ=='));_16.forEach((line, index) => {line._15.opacity = atob('MA==');line._15.transform = atob('dHJhbnNsYXRlWCgtMjBweCk=');setTimeout(() => {line._15.transition = atob('YWxsIDAuNXMgZWFzZQ==');line._15.opacity = atob('MQ==');line._15.transform = atob('dHJhbnNsYXRlWCgwKQ==');}, index * 100);});});// Add _17 effect to buttons document.querySelectorAll(atob('LmRlbW8tYnV0dG9uLCAuY3RhLWJ1dHRvbiwgLmRvd25sb2FkLWJ0bg==')).forEach(button => {button.addEventListener(atob('Y2xpY2s='), function(e) {const _17 = document.createElement(atob('c3Bhbg=='));const _0 = this.getBoundingClientRect();const _18 = Math.max(_0.width, _0.height);const _19 = e.clientX - _0.left - _18 / 2;const _1a = e.clientY - _0.top - _18 / 2;_17._15.width = _17._15.height = _18 + atob('cHg=');_17._15.left = _19 + atob('cHg=');_17._15.top = _1a + atob('cHg=');_17.classList.add(atob('XzE3'));this.appendChild(_17);setTimeout(() => _17.remove(), 600);});});// Add CSS for _17 effect const _1b = document.createElement(atob('XzE1'));_1b.textContent = ` button {position: relative;overflow: hidden;}._17 {position: absolute;border-radius: 50%;background: rgba(255, 255, 255, 0.5);transform: scale(0);animation: _17-animation 0.6s ease-out;pointer-events: none;}@keyframes _17-animation {to {transform: scale(4);opacity: 0;}}`;document.head.appendChild(_1b);})();
+(function () {
+
+    // ────────────────────────────────────────────────
+    //  Particle background with mouse repulsion + links
+    // ────────────────────────────────────────────────
+    class ParticleSystem {
+        constructor(canvas) {
+            this.canvas = canvas;
+            this.ctx = canvas.getContext("2d");
+            this.particles = [];
+            this.particleCount = 100;
+            this.mouse = { x: 0, y: 0 };
+
+            this.resize();
+            this.init();
+            this.animate();
+
+            window.addEventListener("resize", () => this.resize());
+
+            canvas.addEventListener("mousemove", (e) => {
+                const rect = canvas.getBoundingClientRect();
+                this.mouse.x = e.clientX - rect.left;
+                this.mouse.y = e.clientY - rect.top;
+            });
+        }
+
+        resize() {
+            this.canvas.width = this.canvas.offsetWidth;
+            this.canvas.height = this.canvas.offsetHeight;
+        }
+
+        init() {
+            this.particles = [];
+            for (let i = 0; i < this.particleCount; i++) {
+                this.particles.push({
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2 + 1,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        animate() {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.particles.forEach(particle => {
+                // Move
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+                // Mouse repulsion
+                const dx = this.mouse.x - particle.x;
+                const dy = this.mouse.y - particle.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 100) {
+                    const force = (100 - dist) / 100;
+                    particle.vx -= (dx / dist) * force * 0.1;
+                    particle.vy -= (dy / dist) * force * 0.1;
+                }
+
+                // Bounce on edges
+                if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+
+                // Draw circle
+                this.ctx.beginPath();
+                this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                this.ctx.fillStyle = `rgba(255, 51, 102, ${particle.opacity})`;
+                this.ctx.fill();
+
+                // Draw connections
+                this.particles.forEach(other => {
+                    const dx = particle.x - other.x;
+                    const dy = particle.y - other.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(particle.x, particle.y);
+                        this.ctx.lineTo(other.x, other.y);
+                        this.ctx.strokeStyle = `rgba(255, 51, 102, ${0.1 * (1 - dist / 150)})`;
+                        this.ctx.lineWidth = 0.5;
+                        this.ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    // ────────────────────────────────────────────────
+    //  Fake terminal typing animation
+    // ────────────────────────────────────────────────
+    class TerminalTyper {
+        constructor(element, commands) {
+            this.element = element;
+            this.commands = commands;
+            this.currentCommand = 0;
+            this.currentChar = 0;
+            this.isDeleting = false;
+            this.typeSpeed = 100;
+            this.deleteSpeed = 50;
+            this.pauseTime = 2000;
+            this.type();
+        }
+
+        type() {
+            const cmd = this.commands[this.currentCommand];
+
+            if (this.isDeleting) {
+                this.element.textContent = cmd.substring(0, this.currentChar - 1);
+                this.currentChar--;
+            } else {
+                this.element.textContent = cmd.substring(0, this.currentChar + 1);
+                this.currentChar++;
+            }
+
+            let speed = this.isDeleting ? this.deleteSpeed : this.typeSpeed;
+
+            if (!this.isDeleting && this.currentChar === cmd.length) {
+                speed = this.pauseTime;
+                this.isDeleting = true;
+            } else if (this.isDeleting && this.currentChar === 0) {
+                this.isDeleting = false;
+                this.currentCommand = (this.currentCommand + 1) % this.commands.length;
+            }
+
+            setTimeout(() => this.type(), speed);
+        }
+    }
+
+    // ────────────────────────────────────────────────
+    //  Main initialization
+    // ────────────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Particle canvas
+        const particlesCanvas = document.getElementById("particles-canvas");
+        if (particlesCanvas) {
+            new ParticleSystem(particlesCanvas);
+        }
+
+        // Typing effect
+        const typedText = document.getElementById("typed-text");
+        if (typedText) {
+            const fakeCommands = [
+                "falex --help",
+                "falex ping google.com",
+                "falex generate uuid",
+                "falex encode atob(\"SGVsbG8gV29ybGQ=\")",
+                "falex download youtube.com/watch?v=...",
+                "falex identity --random"
+            ];
+            new TerminalTyper(typedText, fakeCommands);
+        }
+
+        // Fake terminal output after delay
+        const terminalOutput = document.getElementById("terminal-output");
+        if (terminalOutput) {
+            setTimeout(() => {
+                terminalOutput.innerHTML = `
+                    <div style="margin-bottom: 0.5rem;">✓ 6 tools available</div>
+                    <div style="margin-bottom: 0.5rem;">✓ All systems operational</div>
+                    <div style="color: #ff3366;">✓ Ready to use</div>
+                `;
+            }, 1500);
+        }
+
+        // ... (rest of the code continues with counters, GSAP animations, smooth scroll, tab switching, navbar scroll effect, demo tool functions, hover effects, parallax, console messages, Konami code easter egg, ripple buttons, etc.)
+
+    });
+
+})();
